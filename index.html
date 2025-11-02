@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <base href="/esp-painel-professor-v4.5/">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ESP.EE · Painel Professor v4.5.2b</title>
-  <link rel="stylesheet" href="./style.css" />
+  <title>ESP.EE · Painel Professor v4.5.3-UX</title>
+  
   <!-- CDNs -->
   <script src="https://alcdn.msauth.net/browser/2.38.0/js/msal-browser.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js" defer></script>
@@ -13,85 +13,82 @@
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.1/dist/jspdf.plugin.autotable.min.js" defer></script>
-  <!-- App -->
+  
+  <link rel="stylesheet" href="./style.css" />
   <script src="./app.js" defer></script>
 </head>
 <body>
-  <div class="app">
-    <aside class="sidebar">
-      <div class="brand">ESP.EE</div>
-      <button class="navbtn active" data-section="painel">📅 Hoje</button>
-      <button class="navbtn" data-section="registos">📘 Registos</button>
-      <button class="navbtn" data-section="admin">👥 Administração</button>
-      <button class="navbtn" data-section="config">⚙️ Configurações</button>
-      <div class="sidebar-foot">v4.5.2b · <span id="sessNome">Sessão: não iniciada</span></div>
-    </aside>
-    <section class="main">
-      <div class="topbar">
-        <div class="status-box"><span id="syncIndicator">—</span></div>
-        <div class="controls">
-          <button id="btnMsLogin" class="btn">Entrar</button>
-          <button id="btnMsLogout" class="btn ghost hidden">Sair</button>
+  <header class="topbar">
+    <div class="brand">ESP.EE <span class="muted">v4.5.3-UX</span></div>
+    <div class="top-actions">
+      <span id="sessNome" class="session-pill">Sessão: não iniciada</span>
+      <button id="btnMsLogin" class="btn">Entrar</button>
+      <button id="btnMsLogout" class="btn hidden">Sair</button>
+    </div>
+  </header>
+
+  <main class="content stack">
+    <!-- Hoje -->
+    <section id="painel" class="section">
+      <div class="sec-head">
+        <h2>📅 Hoje</h2>
+        <div class="sec-actions">
+          <input type="date" id="dataHoje" class="input" />
+          <button id="btnRefreshDay" class="btn">Recarregar</button>
+          <button id="btnCriarOficina" class="btn">Nova oficina</button>
+          <span id="syncIndicator" class="muted">—</span>
         </div>
       </div>
-      <div class="content">
-        <!-- Hoje -->
-        <div id="painel" class="section active">
-          <div class="card">
-            <h3>📅 Hoje</h3>
-            <div class="controls">
-              <input type="date" id="dataHoje" />
-              <button id="btnRefreshDay" class="btn ghost">Recarregar</button>
-              <button id="btnCriarOficina" class="btn ghost">Nova oficina</button>
-            </div>
-          </div>
-          <div id="sessoesHoje"></div>
-        </div>
+      <div id="sessoesHoje" class="stack gap"></div>
+    </section>
 
-        <!-- Registos -->
-        <div id="registos" class="section">
-          <div class="card">
-            <h3>📘 Registos</h3>
-            <div class="controls">
-              <input type="date" id="fltIni" />
-              <input type="date" id="fltFim" />
-              <button id="btnFiltrar" class="btn ghost">Filtrar</button>
-              <button id="btnPdfSemana" class="btn ghost">PDF semanal</button>
-              <button id="btnXlsxSemana" class="btn ghost">XLSX semanal</button>
-              <button id="btnPdfAluno" class="btn ghost">PDF por aluno</button>
-              <button id="btnXlsxAluno" class="btn ghost">XLSX por aluno</button>
-            </div>
-            <div id="regList" class="list"></div>
-          </div>
+    <!-- Registos -->
+    <section id="registos" class="section">
+      <div class="sec-head">
+        <h2>📘 Registos</h2>
+        <div class="sec-actions">
+          <input type="date" id="fltIni" class="input" />
+          <input type="date" id="fltFim" class="input" />
+          <button id="btnFiltrar" class="btn">Filtrar</button>
+          <button id="btnPdfSemana" class="btn">PDF semanal</button>
+          <button id="btnXlsxSemana" class="btn">XLSX semanal</button>
+          <button id="btnPdfAluno" class="btn">PDF por aluno</button>
+          <button id="btnXlsxAluno" class="btn">XLSX por aluno</button>
         </div>
+      </div>
+      <div id="regList" class="stack gap"></div>
+    </section>
 
-        <!-- Administração -->
-        <div id="admin" class="section">
-          <div class="card">
-            <h3>👥 Administração</h3>
-            <p class="small">Carrega/gestiona Alunos, Professores, Oficinas (horários individuais), Disciplinas e Calendário.</p>
-            <div class="adminActions">
-              <input type="file" id="fileImport" accept=".json,.xlsx" multiple />
-              <button id="btnBackupNow" class="btn">Backup agora</button>
-              <button id="btnExportCfgJson" class="btn ghost">Exportar Config (JSON)</button>
-              <button id="btnExportRegJson" class="btn ghost">Exportar Registos (JSON)</button>
-              <button id="btnExportCfgXlsx" class="btn ghost">Exportar Config (XLSX)</button>
-              <button id="btnExportRegXlsx" class="btn ghost">Exportar Registos (XLSX)</button>
-              <button id="btnRestoreBackup" class="btn">Restaurar Backup</button>
-            </div>
-            <div id="adminContent"></div>
-          </div>
-        </div>
+    <!-- Administração (oculta para professores via JS) -->
+    <section id="admin" class="section">
+      <div class="sec-head">
+        <h2>👥 Administração</h2>
+        <p class="muted">Carrega/gestiona Alunos, Professores, Oficinas, Disciplinas e Calendário.</p>
+      </div>
+      <div class="stack gap">
+        <div class="controls-row">
+          <input type="file" id="fileImport" accept=".json,.xlsx" class="input-file" multiple />
+          <label for="fileImport" class="btn">Escolher ficheiro</label>
 
-        <!-- Configurações -->
-        <div id="config" class="section">
-          <div class="card">
-            <h3>⚙️ Configurações</h3>
-            <p class="small">Preferências e backups.</p>
-          </div>
+          <button id="btnBackupNow" class="btn">Backup agora</button>
+          <button id="btnExportCfgJson" class="btn">Exportar Config (JSON)</button>
+          <button id="btnExportRegJson" class="btn">Exportar Registos (JSON)</button>
+          <button id="btnExportCfgXlsx" class="btn">Exportar Config (XLSX)</button>
+          <button id="btnExportRegXlsx" class="btn">Exportar Registos (XLSX)</button>
+          <button id="btnRestoreBackup" class="btn">Restaurar Backup</button>
         </div>
+        <div id="adminContent" class="stack gap"></div>
       </div>
     </section>
-  </div>
+
+    <!-- Configurações -->
+    <section id="config" class="section">
+      <div class="sec-head">
+        <h2>⚙️ Configurações</h2>
+        <p class="muted">Preferências e backups.</p>
+      </div>
+      <!-- Se precisares, podemos acrescentar toggles (modo escuro, etc.) -->
+    </section>
+  </main>
 </body>
 </html>

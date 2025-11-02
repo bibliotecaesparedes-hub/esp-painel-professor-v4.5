@@ -1,18 +1,15 @@
-# ESP.EE · v4.5.2b (Consolidado)
+# ESP.EE · v4.5.3-UX
 
-- **Perfis**: Admin (biblioteca@esparedes.pt) só vê **Administração**; Professores vêem **Hoje** e **Registos** (Admin oculto e bloqueado).
-- **Hoje**: agenda por **Oficinas** do professor com registo **por aluno**: Nº lição, Sumário e Presença (**Presente**, **Ausente (injust.)**, **J (just.)**).
-- **Registos**: mostra **Registos em atraso** (últimos 7 dias) para completar; filtros por data.
-- **Exportações**: **PDF/XLSX semanais** por professor e **PDF/XLSX por aluno** (intervalo).
-- **Backup/restore** e exportações de Config/Registos.
+## O que muda
+- **Layout sem barra lateral**: secções empilhadas (Hoje, Registos, Administração, Configuração) numa única página.
+- **UI uniforme**: botões no tom da antiga sidebar, borda mais escura, relevo no hover; inputs (`date`, `file`, texto/select) com o mesmo look.
+- **Sessão** ao lado de **Entrar/Sair** (topbar fixa).
+- **Responsivo** e confortável no smartphone (botões/inputs 100% em mobile).
+- Mantém todas as funcionalidades da v4.5.2b: chamada por aluno, atrasos, PDF/XLSX, backups e gate por perfil (Admin vs Professor).
 
 ## Publicação
-- Repositório: `esp-painel-professor-v4.5` (GitHub Pages em `main`/root)
-- MSAL Redirect URI deve incluir: `https://bibliotecaesparedes-hub.github.io/esp-painel-professor-v4.5/`
-
-## Ficheiros no OneDrive/Site
-- `config_especial.json` — inclui `professores`, `alunos`, `disciplinas`, `oficinas` e `calendario`.
-- `2registos_alunos.json` — versão `v2`, registos **por aluno** (`status`: `P` | `A` | `J`).
+- Repositório: `esp-painel-professor-v4.5` (GitHub Pages: `main`/root)
+- MSAL Redirect URI: `https://bibliotecaesparedes-hub.github.io/esp-painel-professor-v4.5/`
 
 ## Dica
-- Se a cache do browser mostrar UI antiga, força refresh (**Ctrl+F5** / **Cmd+Shift+R**) ou abre com `?v=452b` no URL.
+- Para evitar cache: abrir com `?v=453ux` no final do URL ou forçar refresh (Ctrl+F5 / Cmd+Shift+R).
