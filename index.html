@@ -4,13 +4,15 @@
   <meta charset="utf-8" />
   <base href="/esp-painel-professor-v4.5/">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ESP.EE · Painel Professor v4.5</title>
+  <title>ESP.EE · Painel Professor v4.5.2b</title>
   <link rel="stylesheet" href="./style.css" />
-  <!-- MSAL, Swal, XLSX -->
+  <!-- CDNs -->
   <script src="https://alcdn.msauth.net/browser/2.38.0/js/msal-browser.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js" defer></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"/>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.1/dist/jspdf.plugin.autotable.min.js" defer></script>
   <!-- App -->
   <script src="./app.js" defer></script>
 </head>
@@ -18,29 +20,29 @@
   <div class="app">
     <aside class="sidebar">
       <div class="brand">ESP.EE</div>
-      <button class="navbtn active" data-section="painel">📅 Painel do Dia</button>
+      <button class="navbtn active" data-section="painel">📅 Hoje</button>
       <button class="navbtn" data-section="registos">📘 Registos</button>
       <button class="navbtn" data-section="admin">👥 Administração</button>
       <button class="navbtn" data-section="config">⚙️ Configurações</button>
-      <div class="sidebar-foot">v4.5 · <span id="sessNome">Sessão: não iniciada</span></div>
+      <div class="sidebar-foot">v4.5.2b · <span id="sessNome">Sessão: não iniciada</span></div>
     </aside>
     <section class="main">
       <div class="topbar">
         <div class="status-box"><span id="syncIndicator">—</span></div>
         <div class="controls">
           <button id="btnMsLogin" class="btn">Entrar</button>
-          <button id="btnMsLogout" class="btn ghost">Sair</button>
+          <button id="btnMsLogout" class="btn ghost hidden">Sair</button>
         </div>
       </div>
       <div class="content">
-        <!-- Painel do Dia -->
+        <!-- Hoje -->
         <div id="painel" class="section active">
           <div class="card">
-            <h3>📅 Painel do Dia</h3>
+            <h3>📅 Hoje</h3>
             <div class="controls">
               <input type="date" id="dataHoje" />
               <button id="btnRefreshDay" class="btn ghost">Recarregar</button>
-              <button id="btnCriarGrupo" class="btn ghost">Novo grupo</button>
+              <button id="btnCriarOficina" class="btn ghost">Nova oficina</button>
             </div>
           </div>
           <div id="sessoesHoje"></div>
@@ -50,6 +52,15 @@
         <div id="registos" class="section">
           <div class="card">
             <h3>📘 Registos</h3>
+            <div class="controls">
+              <input type="date" id="fltIni" />
+              <input type="date" id="fltFim" />
+              <button id="btnFiltrar" class="btn ghost">Filtrar</button>
+              <button id="btnPdfSemana" class="btn ghost">PDF semanal</button>
+              <button id="btnXlsxSemana" class="btn ghost">XLSX semanal</button>
+              <button id="btnPdfAluno" class="btn ghost">PDF por aluno</button>
+              <button id="btnXlsxAluno" class="btn ghost">XLSX por aluno</button>
+            </div>
             <div id="regList" class="list"></div>
           </div>
         </div>
@@ -58,14 +69,7 @@
         <div id="admin" class="section">
           <div class="card">
             <h3>👥 Administração</h3>
-            <div class="tabbar">
-              <button class="tab active" data-tab="professores">Professores</button>
-              <button class="tab" data-tab="alunos">Alunos</button>
-              <button class="tab" data-tab="disciplinas">Disciplinas</button>
-              <button class="tab" data-tab="grupos">Horários/Grupos</button>
-              <button class="tab" data-tab="calendario">Calendário</button>
-            </div>
-            <div class="adminContent" id="adminContent"></div>
+            <p class="small">Carrega/gestiona Alunos, Professores, Oficinas (horários individuais), Disciplinas e Calendário.</p>
             <div class="adminActions">
               <input type="file" id="fileImport" accept=".json,.xlsx" multiple />
               <button id="btnBackupNow" class="btn">Backup agora</button>
@@ -75,7 +79,7 @@
               <button id="btnExportRegXlsx" class="btn ghost">Exportar Registos (XLSX)</button>
               <button id="btnRestoreBackup" class="btn">Restaurar Backup</button>
             </div>
-            <p class="small">Importa JSON completo de configuração ou XLSX para professores.</p>
+            <div id="adminContent"></div>
           </div>
         </div>
 

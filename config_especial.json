@@ -1,0 +1,47 @@
+{
+  "professores": [
+    {
+      "id": "EE1",
+      "nome": "Carlos Carneiro",
+      "email": "carlos.carneiro@esparedes.pt"
+    },
+    {
+      "id": "EE0",
+      "nome": "Biblioteca ESP",
+      "email": "biblioteca@esparedes.pt"
+    }
+  ],
+  "alunos": [
+    {
+      "id": "9I4",
+      "nome": "Gonçalo Silva",
+      "numero": "4",
+      "turma": "9ºI"
+    }
+  ],
+  "disciplinas": [
+    {
+      "id": "Of.P",
+      "nome": "Oficina Português"
+    }
+  ],
+  "grupos": [
+    {
+      "id": "G1",
+      "professorId": "EE1",
+      "disciplinaId": "Of.P",
+      "sala": "B2",
+      "horaInicio": "08:15",
+      "horaFim": "09:05"
+    }
+  ],
+  "calendario": {
+    "feriados": [
+      "2025-10-31"
+    ],
+    "letivo": {
+      "inicio": "2025-09-15",
+      "fim": "2026-06-30"
+    }
+  }
+}
